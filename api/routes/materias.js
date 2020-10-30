@@ -7,7 +7,7 @@ router.get("/", (req, res,next) => {
   models.materia.findAll({attributes: ["id","nombre","id_carrera"],
       
       /////////se agrega la asociacion 
-      include:[{as:'Carrera-Relacionada', model:models.carrera, attributes: ["id","nombre"]}]
+      include:[{as:'Carrera-Relacionada', model:models.carrer, attributes: ["id","nombre"]}]
       ////////////////////////////////
 
     }).then(materias => res.send(materias)).catch(error => { return next(error)});
