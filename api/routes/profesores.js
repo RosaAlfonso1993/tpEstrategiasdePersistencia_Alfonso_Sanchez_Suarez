@@ -3,9 +3,7 @@ var router = express.Router();
 var models = require("../models");
 
 router.get("/", (req, res, next) => {
-
   models.profesor.findAll({
-    //attributes: ["id", "nombre", "apellido"],
     attributes: {
       exclude: ["createdAt", "updatedAt"]
     },
@@ -24,11 +22,8 @@ router.get("/", (req, res, next) => {
             model: models.materia
           }
         ]
-        /* attributes: ["id","nombre"]*/
       }
     ]
-    ////////////////////////////////
-
   }).then(profesores => res.send(profesores)).catch(error => {
     console.log(error)
     return next(error)
@@ -59,7 +54,6 @@ const findProfesor = (id, { onSuccess, onNotFound, onError }) => {
       attributes: {
         exclude: ["createdAt", "updatedAt"]
       },
-      /////////se agrega la asociacion 
       include: [
         {
           attributes: {
@@ -74,7 +68,6 @@ const findProfesor = (id, { onSuccess, onNotFound, onError }) => {
               model: models.materia
             }
           ]
-          /* attributes: ["id","nombre"]*/
         }
       ]
     })
