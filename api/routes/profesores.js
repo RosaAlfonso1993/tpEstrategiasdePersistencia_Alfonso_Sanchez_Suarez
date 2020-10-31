@@ -2,22 +2,44 @@ var express = require("express");
 var router = express.Router();
 var models = require("../models");
 
-router.get("/", (req, res,next) => {
+router.get("/", (req, res, next) => {
 
-  models.profesor.findAll({attributes: ["id","nombre","apellido","id_materia"],
-      
-      /////////se agrega la asociacion 
-      include:[{as:'Materia-Relacionada', model:models.materia, attributes: ["id","nombre"]}]
-      ////////////////////////////////
+  models.profesor.findAll({
+    //attributes: ["id", "nombre", "apellido"],
+    attributes: {
+      exclude: ["createdAt", "updatedAt"]
+    },
+    /////////se agrega la asociacion 
+    include: [
+      {
+        attributes: {
+          exclude: ["createdAt", "updatedAt"]
+        },
+        model: models.materia_profesor,
+        include: [
+          {
+            attributes: {
+              exclude: ["createdAt", "updatedAt"]
+            },
+            model: models.materia
+          }
+        ]
+        /* attributes: ["id","nombre"]*/
+      }
+    ]
+    ////////////////////////////////
 
-    }).then(profesores => res.send(profesores)).catch(error => { return next(error)});
+  }).then(profesores => res.send(profesores)).catch(error => {
+    console.log(error)
+    return next(error)
+  });
 });
 
 
 
 router.post("/", (req, res) => {
   models.profesor
-    .create({ nombre: req.body.nombre , apellido: req.body.apellido, id_materia : req.body.id_materia })
+    .create({ nombre: req.body.nombre, apellido: req.body.apellido })
     .then(profesor => res.status(201).send({ id: profesor.id }))
     .catch(error => {
       if (error == "SequelizeUniqueConstraintError: Validation error") {
@@ -31,17 +53,40 @@ router.post("/", (req, res) => {
 });
 
 const findProfesor = (id, { onSuccess, onNotFound, onError }) => {
-    models.profesor
-      .findOne({
-        attributes: ["id", "nombre","apellido", "id_materia"],
-        where: { id }
-      })
-      .then(profesor => (profesor ? onSuccess(profesor) : onNotFound()))
-      .catch(() => onError());
+  models.profesor
+    .findOne({
+      where: { id },
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      },
+      /////////se agrega la asociacion 
+      include: [
+        {
+          attributes: {
+            exclude: ["createdAt", "updatedAt"]
+          },
+          model: models.materia_profesor,
+          include: [
+            {
+              attributes: {
+                exclude: ["createdAt", "updatedAt"]
+              },
+              model: models.materia
+            }
+          ]
+          /* attributes: ["id","nombre"]*/
+        }
+      ]
+    })
+    .then(profesor => (profesor ? onSuccess(profesor) : onNotFound()))
+    .catch((error) => {
+      console.log(error)
+      onError()
+    });
 };
-  
+
 router.get("/:id", (req, res) => {
-    findProfesor(req.params.id, {
+  findProfesor(req.params.id, {
     onSuccess: profesor => res.send(profesor),
     onNotFound: () => res.sendStatus(404),
     onError: () => res.sendStatus(500)
@@ -50,8 +95,9 @@ router.get("/:id", (req, res) => {
 
 router.put("/:id", (req, res) => {
   const onSuccess = profesor =>
-  profesor
-      .update({ nombre: req.body.nombre , apellido: req.body.apellido, id_materia : req.body.id_materia}, { fields: ["nombre","apellido","id_materia"]})
+    profesor
+      .update({ nombre: req.body.nombre, apellido: req.body.apellido },
+        { fields: ["nombre", "apellido"] })
       .then(() => res.sendStatus(200))
       .catch(error => {
         if (error == "SequelizeUniqueConstraintError: Validation error") {
@@ -62,7 +108,7 @@ router.put("/:id", (req, res) => {
           res.sendStatus(500)
         }
       });
-    findProfesor(req.params.id, {
+  findProfesor(req.params.id, {
     onSuccess,
     onNotFound: () => res.sendStatus(404),
     onError: () => res.sendStatus(500)
@@ -71,11 +117,11 @@ router.put("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const onSuccess = profesor =>
-  profesor
+    profesor
       .destroy()
       .then(() => res.sendStatus(200))
       .catch(() => res.sendStatus(500));
-    findProfesor(req.params.id, {
+  findProfesor(req.params.id, {
     onSuccess,
     onNotFound: () => res.sendStatus(404),
     onError: () => res.sendStatus(500)
