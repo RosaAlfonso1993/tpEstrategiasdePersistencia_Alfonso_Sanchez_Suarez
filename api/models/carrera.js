@@ -8,9 +8,9 @@ module.exports = (sequelize, DataTypes) => {
   carrera.associate = function(models) {
   	carrera.hasMany(models.materia,  // Modelo al que pertenece
     {
-      as: 'materia',                 // nombre de mi relacion
-      foreignKey: 'id_carrera'       // campo con el que voy a igualar 
-                                      //PROBANDO
+   //  as: 'materia',                 // nombre de mi relacion
+      foreignKey: 'id_carrera' ,      // campo con el que voy a igualar 
+      sourceKey: 'id'                                //PROBANDO
     })
   };
 

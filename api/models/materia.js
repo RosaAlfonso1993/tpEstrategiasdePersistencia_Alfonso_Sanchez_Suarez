@@ -13,11 +13,19 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_materia_fk',
         sourceKey: 'id'
       });
-    materia.belongsTo(models.carrera// modelo al que pertenece
+
+    materia.hasOne(models.carrera// modelo al que pertenece
       , {
-        as: 'Carrera-Relacionada',  // nombre de mi relacion
-        foreignKey: 'id_carrera'     // campo con el que voy a igualar
-      })
+       // as: 'Carrera-Relacionada',  // nombre de mi relacion
+        foreignKey: 'id',     // campo con el que voy a igualar
+        sourceKey: 'id_carrera'
+      });
+   /*
+    materia.hasMany(models.curso,{
+      foreignKey: 'id_curso',
+      sourceKey: 'id'
+
+    });*/
   };
 
   // materia.associate = function (models) {

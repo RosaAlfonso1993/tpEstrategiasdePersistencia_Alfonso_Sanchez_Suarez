@@ -5,12 +5,16 @@ var models = require("../models");
 router.get("/", (req, res, next) => {
 
   models.materia.findAll({
-    attributes: ["id", "nombre", "id_carrera"],
-    include: [{ as: 'Carrera-Relacionada', model: models.carrera, attributes: ["id", "nombre"] },
+    attributes: 
+    {exclude: ["createdAt", "updatedAt"]},
+    
+    include: [
+    { model: models.carrera, attributes: ["id", "nombre"]},
     {
-      attributes: {
+      attributes:{
         exclude: ["createdAt", "updatedAt"]
       },
+
       model: models.materia_profesor,
       include: [
         {
@@ -22,17 +26,26 @@ router.get("/", (req, res, next) => {
       ]
     }
     ]
-  }).then(materias => res.send(materias)).catch(error => {
+    /*,
+    include:[{
+      as:'Curso-Relacionado', model: model.curso, attributes:['id','capacidad',]},
+      {
+        attributes: {
+          exclude:['createdAt','updatedAt']
+        }
+      }
+    ]*/
+ })
+  .then(materias => res.send(materias)).catch(error => {
     console.log(error)
     return next(error)
   });
 });
 
 
-
 router.post("/", (req, res) => {
   models.materia
-    .create({ nombre: req.body.nombre, id_carrera: req.body.id_carrera })
+    .create({ nombre: req.body.nombre, id_carrera: req.body.id_carrera})
     .then(materia => res.status(201).send({ id: materia.id }))
     .catch(error => {
       if (error == "SequelizeUniqueConstraintError: Validation error") {
@@ -49,7 +62,9 @@ const findMateria = (id, { onSuccess, onNotFound, onError }) => {
   models.materia
     .findOne({
       where: { id },
-      attributes: ["id", "nombre", "id_carrera"],
+      attributes: ["id", "nombre"],
+     
+
       include: [
         { as: 'Carrera-Relacionada', model: models.carrera, attributes: ["id", "nombre"] },
         {
@@ -67,6 +82,8 @@ const findMateria = (id, { onSuccess, onNotFound, onError }) => {
           ]
         }
       ]
+
+
     })
     .then(materia => (materia ? onSuccess(materia) : onNotFound()))
     .catch(() =>

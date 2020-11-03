@@ -24,12 +24,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.use('/car', carrerasRouter);
 app.use('/mat', materiasRouter);
 app.use('/prof', profesoresRouter);
 app.use('/mat_prof', materia_profesorRouter);
-app.use('/ins',institutosRouter),
+app.use('/ins',institutosRouter);
 app.use('/cur', cursosRouter);
 app.use('/alu', alumnosRouter);
 app.use('/transCar_mat',transaccionalCarrera_MateriaRouter);
