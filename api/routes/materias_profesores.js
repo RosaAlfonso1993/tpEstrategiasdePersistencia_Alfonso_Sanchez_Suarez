@@ -5,7 +5,7 @@ var models = require("../models");
 router.get('/', (req, res) => {
     models.materia_profesor
         .findAll()
-        .then(carreras => res.send(carreras))
+        .then(materia_profesor => res.send(materia_profesor))
         .catch(
             (err) => {
             res.sendStatus(500)
@@ -32,7 +32,7 @@ router.get('/:id', (req, res) => {
                 id
             }
         })
-        .then(carreras => res.send(carreras))
+        .then(materia_profesor => res.send(materia_profesor))
         .catch((err) => {
             res.sendStatus(500)
             console.log(err)

@@ -5,18 +5,18 @@ var models = require("../models");
 router.get('/', (req, res) => {
     models.transaccionalCarrera_Materia
         .findAll()
-        .then(carreras => res.send(carreras))
+        .then(transaccionalCarrera_Materia => res.send(transaccionalCarrera_Materia))
         .catch(
             (err) => {
-            res.sendStatus(500)
-            console.log(err)
-        });
+                res.sendStatus(500)
+                console.log(err)
+            });
 });
 
 router.post('/', (req, res) => {
     models.materia_profesor.create({
         id_materia_fk: req.body.id_materia_fk,
-        id_carrera_fk: req.body.id_profesor_fk
+        id_carrera_fk: req.body.id_carrera_fk
     }).then(transaccionalCarrera_Materia => res.status(201).send(transaccionalCarrera_Materia)).
         catch((err) => {
             res.sendStatus(500)
@@ -32,14 +32,14 @@ router.get('/:id', (req, res) => {
                 id
             }
         })
-        .then(carreras => res.send(carreras))
+        .then(transaccionalCarrera_Materia => res.send(transaccionalCarrera_Materia))
         .catch((err) => {
             res.sendStatus(500)
             console.log(err)
         });
 });
 
-uter.put('/:id', (req, res) => {
+router.put('/:id', (req, res) => {
     const { id } = req.params;
     const { id_materia_fk, id_carrera_fk } = req.body;
     models.transaccionalCarrera_Materia
@@ -48,7 +48,7 @@ uter.put('/:id', (req, res) => {
                 id: req.params.id
             }
         })
-        .then(data => { 
+        .then(data => {
             if (data) {
                 data.update({
                     id_materia_fk: req.body.id_materia_fk,
@@ -93,4 +93,4 @@ router.delete('/:id', (req, res) => {
         });
 });
 
-module.exports = router
+module.exports = router;
