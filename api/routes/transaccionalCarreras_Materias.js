@@ -3,9 +3,9 @@ var router = express.Router();
 var models = require("../models");
 
 router.get('/', (req, res) => {
-    models.transaccionalCarrera_Materia
+    models.transaccionCarrera_Materia
         .findAll()
-        .then(transaccionalCarrera_Materia => res.send(transaccionalCarrera_Materia))
+        .then(transaccionalCarrera_Materias => res.send(transaccionalCarrera_Materias))
         .catch(
             (err) => {
                 res.sendStatus(500)
@@ -14,10 +14,10 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    models.materia_profesor.create({
+    models.transaccionCarrera_Materia.create({
         id_materia_fk: req.body.id_materia_fk,
         id_carrera_fk: req.body.id_carrera_fk
-    }).then(transaccionalCarrera_Materia => res.status(201).send(transaccionalCarrera_Materia)).
+    }).then(transaccionalCarrera_Materias => res.status(201).send(transaccionalCarrera_Materias)).
         catch((err) => {
             res.sendStatus(500)
             console.log(err)
@@ -26,18 +26,18 @@ router.post('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     const { id } = req.params
-    models.transaccionalCarrera_Materia
+    models.transaccionCarrera_Materia
         .findOne({
             where: {
                 id
             }
         })
-        .then(transaccionalCarrera_Materia => res.send(transaccionalCarrera_Materia))
+        .then(transaccionalCarrera_Materias => res.send(transaccionalCarrera_Materias))
         .catch((err) => {
             res.sendStatus(500)
             console.log(err)
         });
-});
+    });
 
 router.put('/:id', (req, res) => {
     const { id } = req.params;
@@ -92,5 +92,9 @@ router.delete('/:id', (req, res) => {
             console.log(err)
         });
 });
+
+
+
+
 
 module.exports = router;

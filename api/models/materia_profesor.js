@@ -17,16 +17,13 @@ module.exports = (sequelize, DataTypes) => {
     }, {});
 
     materia_profesor.associate = function (models) {
-        // associations can be defined here
         materia_profesor.hasOne(models.profesor
             , {
-                //as : 'Materia-Relacionada',  
                 foreignKey: 'id',
                 sourceKey: 'id_profesor_fk'
             });
         materia_profesor.hasOne(models.materia
             , {
-                //as : 'Materia-Relacionada',  
                 foreignKey: 'id',
                 sourceKey: 'id_materia_fk'
             });

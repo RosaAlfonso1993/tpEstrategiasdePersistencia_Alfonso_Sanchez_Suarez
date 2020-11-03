@@ -5,7 +5,14 @@ module.exports = (sequelize, DataTypes) => {
     direccion: DataTypes.STRING
   }, {});
   instituto.associate = function(models) {
-    // associations can be defined here
+
+  	instituto.hasMany(models.carrera,
+    {
+      as: 'carrera',                 // nombre de mi relacion
+      foreignKey: 'id_carrera'       // campo con el que voy a igualar 
+                                      //PROBANDO
+    })
   };
+  
   return instituto;
 };
