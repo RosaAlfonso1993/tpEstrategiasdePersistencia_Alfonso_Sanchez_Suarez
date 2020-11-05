@@ -8,10 +8,10 @@ module.exports = (sequelize, DataTypes) => {
 
   	instituto.hasMany(models.instituto_carrera,
     {
-      as: 'carrera',                 // nombre de mi relacion
-      foreignKey: 'id_carrera'       // campo con el que voy a igualar 
-                                      //PROBANDO
-    })
+      foreignKey: 'id_instituto_fk',
+      sourceKey: 'id'       
+                                    
+    });
   };
   
   return instituto;

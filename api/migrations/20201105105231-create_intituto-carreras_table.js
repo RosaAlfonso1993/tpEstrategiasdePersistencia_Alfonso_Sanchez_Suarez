@@ -40,7 +40,7 @@ module.exports = {
 
   down: (queryInterface, Sequelize) => {
     
-    return queryInterface.dropTable('instituto-carrera');
+    return queryInterface.dropTable('instituto_carrera');
   
   }
 };

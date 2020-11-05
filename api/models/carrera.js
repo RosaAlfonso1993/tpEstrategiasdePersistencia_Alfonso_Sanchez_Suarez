@@ -14,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     })
     carrera.hasMany(models.instituto_carrera,
       {
-        foreignKey: 'id_carrera',
+        foreignKey: 'id_carrera_fk',
         sourceKey:'id'
-      })
+      });
   };
 
 
