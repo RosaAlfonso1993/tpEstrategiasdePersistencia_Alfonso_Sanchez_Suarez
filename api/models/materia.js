@@ -16,11 +16,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_materia_fk',
         sourceKey: 'id'
       });
-
-
-
-
-     //anda
      
     materia.hasMany(models.curso_materia,
     {

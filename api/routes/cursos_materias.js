@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var models = require("../models");
-/*
+
 router.get('/', (req, res) => {
-    models.cursos_materias
+    models.curso_materia
         .findAll()
         .then(curso_materia => res.send(curso_materia))
         .catch(
@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    models.cursos_materias.create({
+    models.curso_materia.create({
         id_materia_fk: req.body.id_materia_fk,
         id_curso_fk: req.body.id_curso_fk
     }).then(curso_materia => res.status(201).send(curso_materia)).
@@ -91,6 +91,6 @@ router.delete('/:id', (req, res) => {
             res.sendStatus(500)
             console.log(err)
         });
-});*/
+});
 
 module.exports = router;
