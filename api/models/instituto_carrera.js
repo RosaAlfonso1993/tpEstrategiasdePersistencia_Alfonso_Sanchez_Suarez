@@ -17,17 +17,18 @@ module.exports = (sequelize, DataTypes) => {
         }
     },{});
     instituto_carrera.associate = function (models) {
-        instituto_carrera.hasOne(models.carrera
-            , {
-                foreignKey: 'id',
-                sourceKey: 'id_carrera_fk'
-            });
-            alumno_materia.hasOne(models.instituto
-            , {
-                foreignKey: 'id',
-                sourceKey: 'id_instituto_fk'
-            });
-    };
+      //  instituto_carrera.hasOne(models.carrera
+          //  , {
+          //      foreignKey: 'id',
+          //      sourceKey: 'id_carrera_fk'
+           // });
+            //alumno_materia.hasOne(models.instituto
+          //  , {
+           //     foreignKey: 'id',
+         //       sourceKey: 'id_instituto_fk'
+       //     });
+        
+     };
 
     return instituto_carrera;
 }
