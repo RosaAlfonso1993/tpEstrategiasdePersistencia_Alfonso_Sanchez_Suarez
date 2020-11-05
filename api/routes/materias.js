@@ -3,11 +3,13 @@ var router = express.Router();
 var models = require("../models");
 
 router.get("/", (req, res, next) => {
-
   models.materia.findAll({
-    attributes: ["id", "nombre", "id_carrera"],
-    include: [{ as: 'Carrera-Relacionada', model: models.carrera, attributes: ["id", "nombre"] },
-    {
+    attributes: ["id", "nombre"],
+    // include: [{
+    //   model: models.carrera, attributes: ["id", "nombre"]
+    // },
+
+    include: [{
       attributes: {
         exclude: ["createdAt", "updatedAt"]
       },
@@ -49,7 +51,7 @@ const findMateria = (id, { onSuccess, onNotFound, onError }) => {
   models.materia
     .findOne({
       where: { id },
-      attributes: ["id", "nombre", "id_carrera"],
+      attributes: ["id", "nombre"],
       include: [
         { as: 'Carrera-Relacionada', model: models.carrera, attributes: ["id", "nombre"] },
         {
@@ -84,7 +86,7 @@ router.get("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
   const onSuccess = materia =>
     materia
-      .update({ nombre: req.body.nombre, id_carrera: req.body.id_carrera }, { fields: ["nombre", "id_carrera"] })
+      .update({ nombre: req.body.nombre, id_carrera: req.body.id_carrera }, { fields: ["nombre"] })
       .then(() => res.sendStatus(200))
       .catch(error => {
         if (error == "SequelizeUniqueConstraintError: Validation error") {

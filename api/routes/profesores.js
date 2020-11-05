@@ -4,27 +4,24 @@ var models = require("../models");
 
 router.get("/", (req, res, next) => {
   models.profesor.findAll({
-    attributes: {
-      exclude: ["createdAt", "updatedAt"]
-    },
-    /////////se agrega la asociacion 
-    include: [
-      {
-        attributes: {
-          exclude: ["createdAt", "updatedAt"]
-        },
-        model: models.materia_profesor,
-        include: [
-          {
-            attributes: {
-              exclude: ["createdAt", "updatedAt"]
-            },
-            model: models.materia
-          }
-        ]
-      }
+    attributes: ["id", "nombre","apellido"],
+    include: [{
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      },
+      model: models.materia_profesor,
+      include: [
+        {
+          attributes: {
+            exclude: ["createdAt", "updatedAt","id_carrera"]
+          },
+          model: models.materia
+        }
+      ]
+    }
     ]
-  }).then(profesores => res.send(profesores)).catch(error => {
+  })
+  .then(profesores => res.send(profesores)).catch(error => {
     console.log(error)
     return next(error)
   });

@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
   console.log("Esto es un mensaje para ver en consola");
   models.instituto
     .findAll({
-      attributes: ["id", "nombre","direccion"]
+      attributes: ["id", "nombre"]
     })
     .then(instituto => res.send(instituto))
     .catch(() => res.sendStatus(500));
@@ -31,7 +31,7 @@ router.post("/", (req, res) => {
 const findinstituto = (id, { onSuccess, onNotFound, onError }) => {
   models.instituto
     .findOne({
-      attributes: ["id", "nombre","direccion"],
+      attributes: ["id", "nombre"],
       where: { id }
     })
     .then(instituto => (instituto ? onSuccess(instituto) : onNotFound()))
@@ -49,7 +49,7 @@ router.get("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
   const onSuccess = instituto =>
     instituto
-      .update({ nombre: req.body.nombre, direccion: req.body.direccion }, { fields: ["nombre", "direccion"] })
+      .update({ nombre: req.body.nombre, direccion: req.body.direccion }, { fields: ["nombre"] })
       .then(() => res.sendStatus(200))
       .catch(error => {
         if (error == "SequelizeUniqueConstraintError: Validation error") {

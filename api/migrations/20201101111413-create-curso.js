@@ -8,18 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id_instituto: {
-        type: Sequelize.INTEGER
-      },
-      id_materia: {
-        type: Sequelize.INTEGER
-      },
-      id_profesor: {
-        type: Sequelize.INTEGER
-      },
-      id_alumno: {
-        type: Sequelize.INTEGER
-      },
       capacidad: {
         type: Sequelize.INTEGER
       },

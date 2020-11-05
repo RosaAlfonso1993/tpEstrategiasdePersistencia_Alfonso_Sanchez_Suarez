@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: true
     },
     capacidad: {
-      type: sequelize.INTEGER,
+      type: DataTypes.INTEGER,
     }, 
   });
   curso.associate = function(models) {
