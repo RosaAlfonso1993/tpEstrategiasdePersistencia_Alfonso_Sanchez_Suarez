@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
   models.instituto
-    .create({ nombre: req.body.nombre ,direccion: req.body.direccion})
+    .create({ nombre: req.body.nombre})
     .then(instituto => res.status(201).send({ id: instituto.id }))
     .catch(error => {
       if (error == "SequelizeUniqueConstraintError: Validation error") {
@@ -32,7 +32,7 @@ const findinstituto = (id, { onSuccess, onNotFound, onError }) => {
   models.instituto
     .findOne({
       attributes: ["id", "nombre"],
-      where: { id }
+      where: { id },
     })
     .then(instituto => (instituto ? onSuccess(instituto) : onNotFound()))
     .catch(() => onError());
@@ -49,7 +49,7 @@ router.get("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
   const onSuccess = instituto =>
     instituto
-      .update({ nombre: req.body.nombre, direccion: req.body.direccion }, { fields: ["nombre"] })
+      .update({ nombre: req.body.nombre}, { fields: ["nombre"] })
       .then(() => res.sendStatus(200))
       .catch(error => {
         if (error == "SequelizeUniqueConstraintError: Validation error") {

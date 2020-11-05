@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   instituto.associate = function(models) {
 
-  	instituto.hasMany(models.carrera,
+  	instituto.hasMany(models.instituto_carrera,
     {
       as: 'carrera',                 // nombre de mi relacion
       foreignKey: 'id_carrera'       // campo con el que voy a igualar 
