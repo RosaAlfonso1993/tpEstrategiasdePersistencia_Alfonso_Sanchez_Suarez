@@ -6,8 +6,12 @@ module.exports = (sequelize, DataTypes) => {
 
   materia.associate = function (models) {
     materia.hasMany(models.materia_profesor
+      , { 
+        foreignKey: 'id_materia_fk',
+        sourceKey: 'id'
+      });
+    materia.hasMany(models.alumno_materia
       , {
-        //as : 'Materia-Relacionada',  
         foreignKey: 'id_materia_fk',
         sourceKey: 'id'
       });
