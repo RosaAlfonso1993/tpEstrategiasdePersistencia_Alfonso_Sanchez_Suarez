@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-    const curso_materia = sequelize.define('cursos_materias', {
+    const curso_materia = sequelize.define('curso_materia', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     }, {});
 
-    curso_materia.associate = function (models) {/*
+    curso_materia.associate = function (models) {
         curso_materia.hasOne(models.curso
             , {
                 foreignKey: 'id',
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
             , {
                 foreignKey: 'id',
                 sourceKey: 'id_materia_fk'
-            });*/
+            });
     };
 
     return curso_materia;

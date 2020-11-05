@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var models = require("../models");
-
+/*
 router.get('/', (req, res) => {
     models.cursos_materias
         .findAll()
@@ -91,6 +91,6 @@ router.delete('/:id', (req, res) => {
             res.sendStatus(500)
             console.log(err)
         });
-});
+});*/
 
 module.exports = router;

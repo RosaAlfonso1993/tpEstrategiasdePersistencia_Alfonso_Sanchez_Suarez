@@ -34,7 +34,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-      //NO ME DEJA MIGRAR NADA
     });
   },
   down: (queryInterface, Sequelize) => {
