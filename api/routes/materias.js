@@ -4,7 +4,7 @@ var models = require("../models");
 
 router.get("/", (req, res, next) => {
   models.materia.findAll({
-    attributes: ["id", "nombre"],
+    attributes: {exclude: ["createdAt", "updatedAt", "id_carrera"]},
     // include: [{
     //   model: models.carrera, attributes: ["id", "nombre"]
     // },
@@ -23,7 +23,21 @@ router.get("/", (req, res, next) => {
         }
       ]
     }
-    ]
+    ],
+    include:[{
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      },
+      model: models.alumno_materia,
+      include: [
+        {
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "id_materia"]
+          },
+          model: models.alumno
+        }
+      ]
+    }]
   }).then(materias => res.send(materias)).catch(error => {
     console.log(error)
     return next(error)
