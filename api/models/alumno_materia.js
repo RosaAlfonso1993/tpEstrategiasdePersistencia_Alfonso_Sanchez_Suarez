@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'id',
                 sourceKey: 'id_alumno_fk'
             });
-            alumno_materia.hasOne(models.materia
+        alumno_materia.hasOne(models.materia
             , {
                 foreignKey: 'id',
                 sourceKey: 'id_materia_fk'

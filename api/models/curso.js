@@ -19,6 +19,17 @@ module.exports = (sequelize, DataTypes) => {
           sourceKey: 'id'
       });
 
+      // DESCOMENTAR CUANDO SE ARREGLE EL MATERIA_PROFESOR A CURSO_PROFESOR
+
+      curso.hasMany(models.curso_profesor,
+      {
+        foreignKey: 'id_curso_fk',
+        sourceKey: 'id'
+      });
+    
+    
+
+
   };
 
   return curso;

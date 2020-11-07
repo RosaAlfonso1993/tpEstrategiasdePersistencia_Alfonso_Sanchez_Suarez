@@ -2,27 +2,28 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('materia_profesors', {
-      id: {
+ return queryInterface.createTable(
+    'curso_profesors', {
+      id:{
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id_materia_fk: {
+      id_curso_fk:{
         allowNull: false,
         type: Sequelize.INTEGER,
         references:{
-          model: 'materia',
-          key: 'id'
-        }
+          model:'cursos',         //////REVISAR POR LAS DUDAS
+          key:'id'
+         }
       },
-      id_profesor_fk: {
-        allowNull: false,
+      id_profesor_fk:{
+        allowNull:false,
         type: Sequelize.INTEGER,
         references:{
           model: 'profesors',
-          key: 'id'
+          key:'id'
         }
       },
       createdAt: {
@@ -33,10 +34,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    })
+    },
+    {       
+      tableName: 'curso_profesors', 
+      freezeTableName: true     
+    }
+    );
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('materia_profesors');
+
+  return queryInterface.dropTable('curso_profesors');
+
   }
 };

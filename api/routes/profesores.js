@@ -21,13 +21,13 @@ router.get("/", (req, res, next) => {
       attributes: {
         exclude: ["createdAt", "updatedAt"]
       },
-      model: models.materia_profesor,
+      model: models.curso_profesor,
       include: [
         {
           attributes: {
             exclude: ["createdAt", "updatedAt","id_carrera"]
           },
-          model: models.materia
+          model: models.curso
         }
       ]
     }

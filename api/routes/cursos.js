@@ -11,28 +11,48 @@ router.get("/", (req, res) => {
      off = (page_number-1)*page_size};
     if(page_size){
       lim = 1*page_size};
-      
-  models.curso
-    .findAll({
+
+  models.curso.findAll({
     offset: off,
     limit:  lim,
+
       attributes:["id"],
       include: [{
         attributes: {
           exclude: ["createdAt", "updatedAt"]
-      },
-      model: models.curso_materia
-      ,
+        },
+        model: models.curso_materia
+        ,
         include:[
           {
-            attributes:
-              ["nombre"]
+            attributes:{
+              exclude: ["createdAt", "updatedAt"]
+            }
             ,
             model: models.materia
             
           }
         ]
-      }]
+      },
+      {
+        attributes: {
+          exclude: ["createdAt", "updatedAt"]
+        },
+        model: models.curso_profesor
+        ,
+        include:[
+          {
+            attributes:{
+              exclude: ["createdAt", "updatedAt"]
+            }
+            ,
+            model: models.profesor
+            
+          }
+        ]
+      }
+      ]
+
 
 
     })

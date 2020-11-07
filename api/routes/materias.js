@@ -17,7 +17,8 @@ router.get("/", (req, res, next) => {
     limit:  lim,
 
     attributes: {exclude: ["createdAt", "updatedAt", "id_carrera"]},
-    include:[{
+    include:[
+    {
       attributes: {
         exclude: ["createdAt", "updatedAt"]
       },
@@ -30,24 +31,23 @@ router.get("/", (req, res, next) => {
           model: models.alumno
         }
       ]
-    }],
-    include: [
-      //{ as: 'Carrera-Relacionada', model: models.carrera, attributes: ["id", "nombre"] },
-       {
-         attributes: {
-           exclude: ["createdAt", "updatedAt"]
-         },
-         model: models.materia_profesor,
-         include: [
-           {
-             attributes: {
-               exclude: ["createdAt", "updatedAt"]
-             },
-             model: models.profesor
-           }
-         ]
-       }
-     ]
+    },
+    {
+        attributes:{
+          exclude: ["createdAt","updatedAt"]
+        },
+        model: models.curso_materia,
+          include: [{
+            attributes:{
+              exclude: ["createdAt", "updatedAt"]
+            },
+            model: models.curso
+          }
+          ]
+    }
+    
+    ]
+    
   }).then(materias => res.send(materias)).catch(error => {
     console.log(error)
     return next(error)

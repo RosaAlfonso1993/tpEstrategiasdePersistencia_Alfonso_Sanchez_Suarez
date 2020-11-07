@@ -3,9 +3,9 @@ var router = express.Router();
 var models = require("../models");
 
 router.get('/', (req, res) => {
-    models.materia_profesor
+    models.curso_profesor
         .findAll()
-        .then(materia_profesor => res.send(materia_profesor))
+        .then(curso_profesor => res.send(curso_profesor))
         .catch(
             (err) => {
             res.sendStatus(500)
@@ -14,10 +14,10 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    models.materia_profesor.create({
-        id_materia_fk: req.body.id_materia_fk,
+    models.curso_profesor.create({
+        id_curso_fk: req.body.id_curso_fk,
         id_profesor_fk: req.body.id_profesor_fk
-    }).then(materia_profesor => res.status(201).send(materia_profesor)).
+    }).then(curso_profesor => res.status(201).send(curso_profesor)).
         catch((err) => {
             res.sendStatus(500)
             console.log(err)
@@ -26,13 +26,13 @@ router.post('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     const { id } = req.params
-    models.materia_profesor
+    models.curso_profesor
         .findOne({
             where: {
                 id
             }
         })
-        .then(materia_profesor => res.send(materia_profesor))
+        .then(curso_profesor => res.send(curso_profesor))
         .catch((err) => {
             res.sendStatus(500)
             console.log(err)
@@ -41,8 +41,8 @@ router.get('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
     const { id } = req.params;
-    const { id_materia_fk, id_profesor_fk } = req.body;
-    models.materia_profesor
+    const { id_curso_fk, id_profesor_fk } = req.body;
+    models.curso_profesor
         .findOne({
             where: {
                 id: req.params.id
@@ -51,7 +51,7 @@ router.put('/:id', (req, res) => {
         .then(data => { 
             if (data) {
                 data.update({
-                    id_materia_fk: req.body.id_materia_fk,
+                    id_curso_fk: req.body.id_curso_fk,
                     id_profesor_fk: req.body.id_profesor_fk
                 }).then(data => res.send(data))
                     .catch((err) => {
@@ -68,7 +68,7 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
-    models.materia_profesor
+    models.curso_profesor
         .findOne({
             where: {
                 id

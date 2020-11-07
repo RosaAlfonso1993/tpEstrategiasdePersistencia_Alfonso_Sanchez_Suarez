@@ -1,12 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-    const materia_profesor = sequelize.define('materia_profesor', {
+    const curso_profesor = sequelize.define('curso_profesor', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        id_materia_fk: {
+        id_curso_fk: {
             type: DataTypes.INTEGER,
             foreignKey: true
         },
@@ -16,18 +16,18 @@ module.exports = (sequelize, DataTypes) => {
         }
     }, {});
 
-    materia_profesor.associate = function (models) {
-        materia_profesor.hasOne(models.profesor
+    curso_profesor.associate = function (models) {
+        curso_profesor.hasOne(models.profesor
             , {
                 foreignKey: 'id',
                 sourceKey: 'id_profesor_fk'
             });
-        materia_profesor.hasOne(models.materia
+        curso_profesor.hasOne(models.curso
             , {
                 foreignKey: 'id',
-                sourceKey: 'id_materia_fk'
+                sourceKey: 'id_curso_fk'
             });
     };
 
-    return materia_profesor;
+    return curso_profesor;
 };
