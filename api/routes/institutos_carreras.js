@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var models = require("../models");
-const instituto_carrera = require("../models/instituto_carrera");
+//const instituto_carrera = require("../models/instituto_carrera");
 
 router.get('/', (req, res) => {
     models.instituto_carrera
