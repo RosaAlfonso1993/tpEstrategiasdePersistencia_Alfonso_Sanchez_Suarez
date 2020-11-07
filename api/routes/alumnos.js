@@ -4,11 +4,20 @@ var models = require("../models");
 
 
 router.get("/", (req, res) => {
+  var off = null;
+  var lim = null;
+
+  if(page_number){
+     off = (page_number-1)*page_size};
+  if(page_size){
+      lim = 1*page_size};
+
   const { page_number, page_size } = req.query;
   models.alumno
     .findAll({
-      offset: (page_number-1)*page_size,
-      limit: tonumber(page_number),
+    offset: off,
+    limit:  lim,
+
       attributes: ["id", "nombre", "apellido"],
       include: [{
         attributes: {
