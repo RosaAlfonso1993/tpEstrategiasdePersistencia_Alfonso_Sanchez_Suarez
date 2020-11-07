@@ -3,7 +3,11 @@ var router = express.Router();
 var models = require("../models");
 
 router.get("/", (req, res, next) => {
+  const { page_number, page_size } = req.query;
   models.materia.findAll({
+    offset: (page_number-1)*page_size,
+    limit: 1*page_number,
+    
     attributes: {exclude: ["createdAt", "updatedAt", "id_carrera"]},
     include:[{
       attributes: {

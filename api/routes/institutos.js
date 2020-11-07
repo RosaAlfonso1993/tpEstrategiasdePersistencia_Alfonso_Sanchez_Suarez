@@ -5,8 +5,11 @@ const instituto = require("../models/instituto");
 
 router.get("/", (req, res) => {
   console.log("Esto es un mensaje para ver en consola");
+  const { page_number, page_size } = req.query;
   models.instituto
     .findAll({
+    offset: (page_number-1)*page_size,
+    limit: 1*page_number,
       attributes: ["id", "nombre"]
     })
     .then(instituto => res.send(instituto))

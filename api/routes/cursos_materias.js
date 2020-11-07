@@ -26,7 +26,7 @@ router.post('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     const { id } = req.params
-    models.cursos_materias
+    models.curso_materia
         .findOne({
             where: {
                 id
@@ -42,7 +42,7 @@ router.get('/:id', (req, res) => {
 router.put('/:id', (req, res) => {
     const { id } = req.params;
     const { id_materia_fk, id_curso_fk } = req.body;
-    models.cursos_materias
+    models.curso_materia
         .findOne({
             where: {
                 id: req.params.id
@@ -68,7 +68,7 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
-    models.cursos_materias
+    models.curso_materia
         .findOne({
             where: {
                 id

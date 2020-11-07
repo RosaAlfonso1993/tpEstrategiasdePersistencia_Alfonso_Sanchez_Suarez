@@ -3,8 +3,11 @@ var router = express.Router();
 var models = require("../models");
 
 router.get("/", (req, res) => {
+  const { page_number, page_size } = req.query;
   models.curso
     .findAll({
+    offset: (page_number-1)*page_size,
+    limit: tonumber(page_number),
       attributes:["id"],
       include: [{
         attributes: {

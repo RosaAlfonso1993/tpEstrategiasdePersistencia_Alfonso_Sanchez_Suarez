@@ -3,7 +3,13 @@ var router = express.Router();
 var models = require("../models");
 
 router.get("/", (req, res, next) => {
+  const { page_number, page_size } = req.query;
+
+  
   models.profesor.findAll({
+    offset: (page_number-1)*page_size,
+    limit: 1*page_number,
+   // offset:1 ,limit:1,
     attributes: ["id", "nombre","apellido"],
     include: [{
       attributes: {

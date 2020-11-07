@@ -7,8 +7,8 @@ router.get("/", (req, res) => {
   const { page_number, page_size } = req.query;
   models.alumno
     .findAll({
-      offset: ((page_number-1)*page_size), limit: page_size,
-      // offset: 2, limit: 2,
+      offset: (page_number-1)*page_size,
+      limit: tonumber(page_number),
       attributes: ["id", "nombre", "apellido"],
       include: [{
         attributes: {
