@@ -5,25 +5,6 @@ var models = require("../models");
 router.get("/", (req, res, next) => {
   models.materia.findAll({
     attributes: {exclude: ["createdAt", "updatedAt", "id_carrera"]},
-    // include: [{
-    //   model: models.carrera, attributes: ["id", "nombre"]
-    // },
-
-    include: [{
-      attributes: {
-        exclude: ["createdAt", "updatedAt"]
-      },
-      model: models.materia_profesor,
-      include: [
-        {
-          attributes: {
-            exclude: ["createdAt", "updatedAt"]
-          },
-          model: models.profesor
-        }
-      ]
-    }
-    ],
     include:[{
       attributes: {
         exclude: ["createdAt", "updatedAt"]
@@ -37,7 +18,24 @@ router.get("/", (req, res, next) => {
           model: models.alumno
         }
       ]
-    }]
+    }],
+    include: [
+      //{ as: 'Carrera-Relacionada', model: models.carrera, attributes: ["id", "nombre"] },
+       {
+         attributes: {
+           exclude: ["createdAt", "updatedAt"]
+         },
+         model: models.materia_profesor,
+         include: [
+           {
+             attributes: {
+               exclude: ["createdAt", "updatedAt"]
+             },
+             model: models.profesor
+           }
+         ]
+       }
+     ]
   }).then(materias => res.send(materias)).catch(error => {
     console.log(error)
     return next(error)
@@ -67,7 +65,6 @@ const findMateria = (id, { onSuccess, onNotFound, onError }) => {
       where: { id },
       attributes: ["id", "nombre"],
       include: [
-       //{ as: 'Carrera-Relacionada', model: models.carrera, attributes: ["id", "nombre"] },
         {
           attributes: {
             exclude: ["createdAt", "updatedAt"]

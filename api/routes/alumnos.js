@@ -2,24 +2,27 @@ var express = require("express");
 var router = express.Router();
 var models = require("../models");
 
+
 router.get("/", (req, res) => {
-  console.log("Esto es un mensaje para ver en consola");
+  const { page_number, page_size } = req.query;
   models.alumno
     .findAll({
-      attributes: ["id", "nombre","apellido"],
-      include:[{
+      offset: ((page_number-1)*page_size), limit: page_size,
+      // offset: 2, limit: 2,
+      attributes: ["id", "nombre", "apellido"],
+      include: [{
         attributes: {
           exclude: ["createdAt", "updatedAt"]
         },
         model: models.alumno_materia,
-        // include: [
-        //   {
-        //     attributes: {
-        //       exclude: ["createdAt", "updatesAt", "id_carrera"]
-        //     },
-        //     model: models.materia
-        //   }
-        // ]
+        include: [
+          {
+            attributes: {
+              exclude: ["createdAt", "updatesAt", "id_carrera"]
+            },
+            model: models.materia
+          }
+        ]
       }]
     })
     .then(alumnos => res.send(alumnos))
@@ -28,7 +31,7 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
   models.alumno
-    .create({ nombre: req.body.nombre ,apellido: req.body.apellido})
+    .create({ nombre: req.body.nombre, apellido: req.body.apellido })
     .then(alumno => res.status(201).send({ id: alumno.id }))
     .catch(error => {
       if (error == "SequelizeUniqueConstraintError: Validation error") {
@@ -44,7 +47,21 @@ router.post("/", (req, res) => {
 const findalumno = (id, { onSuccess, onNotFound, onError }) => {
   models.alumno
     .findOne({
-      attributes: ["id", "nombre","apellido"],
+      attributes: ["id", "nombre", "apellido"],
+      include: [{
+        attributes: {
+          exclude: ["createdAt", "updatedAt"]
+        },
+        model: models.alumno_materia,
+        include: [
+          {
+            attributes: {
+              exclude: ["createdAt", "updatesAt", "id_carrera"]
+            },
+            model: models.materia
+          }
+        ]
+      }],
       where: { id }
     })
     .then(alumno => (alumno ? onSuccess(alumno) : onNotFound()))
@@ -73,7 +90,7 @@ router.put("/:id", (req, res) => {
           res.sendStatus(500)
         }
       });
-    findalumno(req.params.id, {
+  findalumno(req.params.id, {
     onSuccess,
     onNotFound: () => res.sendStatus(404),
     onError: () => res.sendStatus(500)
