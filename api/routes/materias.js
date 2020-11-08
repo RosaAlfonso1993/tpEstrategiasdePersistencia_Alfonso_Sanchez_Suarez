@@ -16,7 +16,7 @@ router.get("/", (req, res, next) => {
     offset: off,
     limit:  lim,
 
-    attributes: {exclude: ["createdAt", "updatedAt", "id_carrera"]},
+    attributes: {exclude: ["createdAt", "updatedAt"]},
     include:[
     {
       attributes: {
@@ -75,23 +75,37 @@ const findMateria = (id, { onSuccess, onNotFound, onError }) => {
   models.materia
     .findOne({
       where: { id },
-      attributes: ["id", "nombre"],
+    attributes: {exclude: ["createdAt", "updatedAt"]},
+    include:[
+    {
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      },
+      model: models.alumno_materia,
       include: [
         {
           attributes: {
-            exclude: ["createdAt", "updatedAt"]
+            exclude: ["createdAt", "updatedAt", "id_materia"]
           },
-          model: models.materia_profesor,
-          include: [
-            {
-              attributes: {
-                exclude: ["createdAt", "updatedAt"]
-              },
-              model: models.profesor
-            }
-          ]
+          model: models.alumno
         }
       ]
+    },
+    {
+        attributes:{
+          exclude: ["createdAt","updatedAt"]
+        },
+        model: models.curso_materia,
+          include: [{
+            attributes:{
+              exclude: ["createdAt", "updatedAt"]
+            },
+            model: models.curso
+          }
+          ]
+    }
+    
+    ]
     })
     .then(materia => (materia ? onSuccess(materia) : onNotFound()))
     .catch(() =>

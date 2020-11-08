@@ -60,25 +60,22 @@ const findProfesor = (id, { onSuccess, onNotFound, onError }) => {
   models.profesor
     .findOne({
       where: { id },
+    attributes: ["id", "nombre","apellido"],
+    include: [{
       attributes: {
         exclude: ["createdAt", "updatedAt"]
       },
+      model: models.curso_profesor,
       include: [
         {
           attributes: {
-            exclude: ["createdAt", "updatedAt"]
+            exclude: ["createdAt", "updatedAt","id_carrera"]
           },
-          model: models.materia_profesor,
-          include: [
-            {
-              attributes: {
-                exclude: ["createdAt", "updatedAt"]
-              },
-              model: models.materia
-            }
-          ]
+          model: models.curso
         }
       ]
+    }
+    ]
     })
     .then(profesor => (profesor ? onSuccess(profesor) : onNotFound()))
     .catch((error) => {

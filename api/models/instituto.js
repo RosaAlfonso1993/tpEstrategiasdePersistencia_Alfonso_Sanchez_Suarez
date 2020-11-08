@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
   	instituto.hasMany(models.instituto_carrera,
     {
       foreignKey: 'id_instituto_fk',
-      sourceKey: 'id'       
-                                    
+      sourceKey: 'id'
+               
     });
   };
   
