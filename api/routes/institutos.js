@@ -1,12 +1,12 @@
 var express = require("express");
 var router = express.Router();
 var models = require("../models");
-const instituto = require("../models/instituto");
+
 
 router.get("/", (req, res) => {
-  console.log("Esto es un mensaje para ver en consola");
-  var off = null;
+ var off = null;
   var lim = null;
+
   const { page_number, page_size } = req.query;
 
     if(page_number){
@@ -19,9 +19,24 @@ router.get("/", (req, res) => {
     .findAll({
     offset: off,
     limit:  lim,
-      attributes: ["id", "nombre"]
+
+      attributes: ["id", "nombre"],
+      include: [{
+        attributes: {
+          exclude: ["createdAt", "updatedAt"]
+        },
+        model: models.instituto_carrera,
+        include: [
+          {
+            attributes: {
+              exclude: ["createdAt", "updatesAt", "id_carrera"]
+            },
+            model: models.carrera
+          }
+        ]
+      }]
     })
-    .then(instituto => res.send(instituto))
+    .then(institutos => res.send(institutos))
     .catch(() => res.sendStatus(500));
 });
 
@@ -44,6 +59,20 @@ const findinstituto = (id, { onSuccess, onNotFound, onError }) => {
   models.instituto
     .findOne({
       attributes: ["id", "nombre"],
+      include: [{
+        attributes: {
+          exclude: ["createdAt", "updatedAt"]
+        },
+        model: models.instituto_carrera,
+        include: [
+          {
+            attributes: {
+              exclude: ["createdAt", "updatesAt", "id_carrera"]
+            },
+            model: models.carrera
+          }
+        ]
+      }],
       where: { id },
     })
     .then(instituto => (instituto ? onSuccess(instituto) : onNotFound()))

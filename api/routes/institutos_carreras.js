@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var models = require("../models");
-//const instituto_carrera = require("../models/instituto_carrera");
+
 
 router.get('/', (req, res) => {
     models.instituto_carrera
@@ -26,23 +26,19 @@ router.post('/', (req, res) => {
         });
 });
 
-const findInstituto_Carrera = (id, { onSucces,
-    onNotFound, onError }) => {
+router.get(':id', (req, res) => {
+    const { id } = req.params
     models.instituto_carrera
         .findOne({
             where: {
                 id
             }
         })
-        .then(carrera => ( instituto_carrera ? onSuccess(instituto_carrera) : onNotFound()))
-        .catch(() => onError());
-};
-router.get(':id', (req, res) => {
-    findInstituto_Carrera(req.params.id, {
-        onSuccess: instituto_carrera => res.send(instituto_carrera),
-        onNotFound: () => res.sendStatus(404),
-        onError: () => res.sendStatus(500)
-    })
+        .then(instituto_carrera => res.send(instituto_carrera))
+        .catch((err) => {
+            res.sendStatus(500)
+            console.log(err)
+        });
 });
 
 router.put('/:id', (req, res) => {

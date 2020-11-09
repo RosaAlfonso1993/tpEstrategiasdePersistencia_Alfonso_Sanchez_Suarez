@@ -3,10 +3,11 @@ var router = express.Router();
 var models = require("../models");
 
 router.get("/", (req, res) => {
-  console.log("Esto es un mensaje para ver en consola");
-  const { page_number, page_size } = req.query;
+  
   var off = null;
   var lim = null;
+  
+  const { page_number, page_size } = req.query;
 
     if(page_number){
      off = (page_number-1)*page_size};
@@ -17,7 +18,22 @@ router.get("/", (req, res) => {
     .findAll({
     offset: off,
     limit:  lim,
-      attributes: ["id", "nombre"]
+
+      attributes: ["id", "nombre"],
+      include: [{
+        attributes: {
+          exclude: ["createdAt", "updatedAt"]
+        },
+        model: models.instituto_carrera,
+        include: [
+          {
+            attributes: {
+              exclude: ["createdAt", "updatesAt", "id_carrera"]
+            },
+            model: models.instituto
+          }
+        ]
+      }]
     })
     .then(carreras => res.send(carreras))
     .catch(() => res.sendStatus(500));
@@ -42,6 +58,20 @@ const findCarrera = (id, { onSuccess, onNotFound, onError }) => {
   models.carrera
     .findOne({
       attributes: ["id", "nombre"],
+      include: [{
+        attributes: {
+          exclude: ["createdAt", "updatedAt"]
+        },
+        model: models.instituto_carrera,
+        include: [
+          {
+            attributes: {
+              exclude: ["createdAt", "updatesAt", "id_carrera"]
+            },
+            model: models.instituto
+          }
+        ]
+      }],
       where: { id }
     })
     .then(carrera => (carrera ? onSuccess(carrera) : onNotFound()))
