@@ -22,7 +22,8 @@ router.get("/", (req, res) => {
       limit: lim,
 
       attributes: ["id", "nombre"],
-      include: [{
+      include: [
+      {
         attributes: {
           exclude: ["createdAt", "updatedAt"]
         },
@@ -51,20 +52,18 @@ router.get("/", (req, res) => {
 
       },
       {
-      attributes: {
-        exclude: ["createdAt", "updatedAt"]
-      },
-      model: models.alumno_carrera,
-      include: [
-        {
-          attributes: {
-            exclude: ["createdAt", "updatedAt", "id_materia"]
-          },
-          model: models.alumno
-        }
-      ]
-    }
-
+        attributes: {
+          exclude: ["createdAt", "updatedAt"]
+        },
+        model: models.alumno_carrera,
+        include: [
+          {
+            attributes: {
+              exclude: ["createdAt", "updatedAt", "id_materia"]
+            },
+            model: models.alumno
+          }
+        ]
       }
 
       ]
