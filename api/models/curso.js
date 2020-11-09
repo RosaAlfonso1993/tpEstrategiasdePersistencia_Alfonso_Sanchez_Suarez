@@ -8,28 +8,23 @@ module.exports = (sequelize, DataTypes) => {
     },
     capacidad: {
       type: DataTypes.INTEGER,
-    }, 
-  },{});
+    },
+  }, {});
 
-  curso.associate = function(models) {
+  curso.associate = function (models) {
     //REVISAR ACA
     curso.hasMany(models.curso_materia
-      ,{
+      , {
         foreignKey: 'id_curso_fk',
-          sourceKey: 'id'
+        sourceKey: 'id'
       });
 
-      // DESCOMENTAR CUANDO SE ARREGLE EL MATERIA_PROFESOR A CURSO_PROFESOR
-
-      curso.hasMany(models.curso_profesor,
+    // DESCOMENTAR CUANDO SE ARREGLE EL MATERIA_PROFESOR A CURSO_PROFESOR
+    curso.hasMany(models.curso_profesor,
       {
         foreignKey: 'id_curso_fk',
         sourceKey: 'id'
       });
-    
-    
-
-
   };
 
   return curso;

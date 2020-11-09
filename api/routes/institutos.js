@@ -4,21 +4,22 @@ var models = require("../models");
 
 
 router.get("/", (req, res) => {
- var off = null;
+  var off = null;
   var lim = null;
 
   const { page_number, page_size } = req.query;
 
-    if(page_number){
-     off = (page_number-1)*page_size};
-    if(page_size){
-      lim = 1*page_size};
-
+  if (page_number) {
+    off = (page_number - 1) * page_size
+  };
+  if (page_size) {
+    lim = 1 * page_size
+  };
 
   models.instituto
     .findAll({
-    offset: off,
-    limit:  lim,
+      offset: off,
+      limit: lim,
 
       attributes: ["id", "nombre"],
       include: [{
@@ -36,13 +37,15 @@ router.get("/", (req, res) => {
         ]
       }]
     })
-    .then(institutos => res.send(institutos))
-    .catch(() => res.sendStatus(500));
+  .then(institutos => res.send(institutos))
+  .catch((error) =>
+    console.log(error),
+    res.sendStatus(500));
 });
 
 router.post("/", (req, res) => {
   models.instituto
-    .create({ nombre: req.body.nombre})
+    .create({ nombre: req.body.nombre })
     .then(instituto => res.status(201).send({ id: instituto.id }))
     .catch(error => {
       if (error == "SequelizeUniqueConstraintError: Validation error") {
@@ -90,7 +93,7 @@ router.get("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
   const onSuccess = instituto =>
     instituto
-      .update({ nombre: req.body.nombre}, { fields: ["nombre"] })
+      .update({ nombre: req.body.nombre }, { fields: ["nombre"] })
       .then(() => res.sendStatus(200))
       .catch(error => {
         if (error == "SequelizeUniqueConstraintError: Validation error") {
@@ -101,7 +104,7 @@ router.put("/:id", (req, res) => {
           res.sendStatus(500)
         }
       });
-    findinstituto(req.params.id, {
+  findinstituto(req.params.id, {
     onSuccess,
     onNotFound: () => res.sendStatus(404),
     onError: () => res.sendStatus(500)

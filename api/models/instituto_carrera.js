@@ -16,9 +16,8 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: true
         }
     },{});
+    
     instituto_carrera.associate = function (models) {
-      // GUARDA!
-      
         instituto_carrera.hasOne(models.carrera
             , {
                 foreignKey: 'id',

@@ -4,67 +4,70 @@ var models = require("../models");
 
 router.get("/", (req, res) => {
   const { page_number, page_size } = req.query;
-    var off = null;
+  var off = null;
   var lim = null;
 
-    if(page_number){
-     off = (page_number-1)*page_size};
-    if(page_size){
-      lim = 1*page_size};
+  if (page_number) {
+    off = (page_number - 1) * page_size
+  };
+  if (page_size) {
+    lim = 1 * page_size
+  };
 
   models.curso.findAll({
     offset: off,
-    limit:  lim,
+    limit: lim,
 
-      attributes:["id"],
-      include: [{
-        attributes: {
-          exclude: ["createdAt", "updatedAt"]
-        },
-        model: models.curso_materia
-        ,
-        include:[
-          {
-            attributes:{
-              exclude: ["createdAt", "updatedAt"]
-            }
-            ,
-            model: models.materia
-            
-          }
-        ]
+    attributes: ["id"],
+    include: [{
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
       },
-      {
-        attributes: {
-          exclude: ["createdAt", "updatedAt"]
-        },
-        model: models.curso_profesor
-        ,
-        include:[
-          {
-            attributes:{
-              exclude: ["createdAt", "updatedAt"]
-            }
-            ,
-            model: models.profesor
-            
+      model: models.curso_materia
+      ,
+      include: [
+        {
+          attributes: {
+            exclude: ["createdAt", "updatedAt"]
           }
-        ]
-      }
+          ,
+          model: models.materia
+
+        }
       ]
+    },
+    {
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      },
+      model: models.curso_profesor
+      ,
+      include: [
+        {
+          attributes: {
+            exclude: ["createdAt", "updatedAt"]
+          }
+          ,
+          model: models.profesor
+
+        }
+      ]
+    }
+    ]
 
 
 
-    })
+  })
     .then(cursos => res.send(cursos))
     .catch((err) => {
       console.log(err);
-      res.sendStatus(500)});
+      res.sendStatus(500)
+    });
 });
 
 router.post("/", (req, res) => {
   models.curso
-    .create({ capacidad: req.body.capacidad})
+    .create({ capacidad: req.body.capacidad })
     .then(curso => res.status(201).send({ id: curso.id }))
     .catch(error => {
       if (error == "SequelizeUniqueConstraintError: Validation error") {
@@ -98,8 +101,8 @@ router.get("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
   const onSuccess = curso =>
     curso
-      .update({ capacidad: req.body.capacidad }, 
-      	{ fields: ["capacidad"] })
+      .update({ capacidad: req.body.capacidad },
+        { fields: ["capacidad"] })
       .then(() => res.sendStatus(200))
       .catch(error => {
         if (error == "SequelizeUniqueConstraintError: Validation error") {
@@ -110,7 +113,7 @@ router.put("/:id", (req, res) => {
           res.sendStatus(500)
         }
       });
-    findcurso(req.params.id, {
+  findcurso(req.params.id, {
     onSuccess,
     onNotFound: () => res.sendStatus(404),
     onError: () => res.sendStatus(500)

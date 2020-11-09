@@ -37,7 +37,7 @@ router.get('/:id', (req, res) => {
             res.sendStatus(500)
             console.log(err)
         });
-    });
+});
 
 router.put('/:id', (req, res) => {
     const { id } = req.params;

@@ -3,17 +3,19 @@ module.exports = (sequelize, DataTypes) => {
   const carrera = sequelize.define('carrera', {
     nombre: DataTypes.STRING
   }, {});
-  
-  //codigo de asociacion  (tiene muchos:)
-  carrera.associate = function(models) {
 
+  carrera.associate = function (models) {
     carrera.hasMany(models.instituto_carrera,
       {
         foreignKey: 'id_carrera_fk',
-        sourceKey:'id'
+        sourceKey: 'id'
+      });
+    carrera.hasMany(models.transaccionCarrera_Materia,
+      {
+        foreignKey: 'id_carrera_fk',
+        sourceKey: 'id'
       });
   };
-
 
   return carrera;
 };

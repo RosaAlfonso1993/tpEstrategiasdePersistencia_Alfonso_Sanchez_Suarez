@@ -28,24 +28,19 @@ router.post('/', (req, res) => {
 });
 
 
-const findAlumno_Materia = (id, { onSucces,
-    onNotFound, onError }) => {
+router.get('/:id', (req, res) => {
+    const { id } = req.params
     models.alumno_materia
         .findOne({
             where: {
                 id
             }
         })
-        .then(carrera => (alumno_materia ? onSuccess(alumno_materia) : onNotFound()))
-        .catch(() => onError());
-};
-
-router.get(':id', (req, res) => {
-    findAlumno_Materia(req.params.id, {
-        onSuccess: alumno_materia => res.send(alumno_materia),
-        onNotFound: () => res.sendStatus(404),
-        onError: () => res.sendStatus(500)
-    })
+        .then(alumno_materia => res.send(alumno_materia))
+        .catch((err) => {
+            res.sendStatus(500)
+            console.log(err)
+        });
 });
 
 router.put('/:id', (req, res) => {
@@ -57,7 +52,7 @@ router.put('/:id', (req, res) => {
                 id: req.params.id
             }
         })
-        .then(data => { 
+        .then(data => {
             if (data) {
                 data.update({
                     id_alumno_fk: req.body.id_alumno_fk,
