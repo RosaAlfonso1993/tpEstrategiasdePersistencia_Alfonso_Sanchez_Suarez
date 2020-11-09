@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var models = require("../models");
+const instituto = require("../models/instituto");
 
 
 router.get("/", (req, res) => {
@@ -30,17 +31,15 @@ router.get("/", (req, res) => {
         include: [
           {
             attributes: {
-              exclude: ["createdAt", "updatesAt", "id_carrera"]
+              exclude: ["createdAt", "updatedAt"]
             },
             model: models.carrera
           }
         ]
       }]
     })
-  .then(institutos => res.send(institutos))
-  .catch((error) =>
-    console.log(error),
-    res.sendStatus(500));
+    .then(institutos => res.send(institutos))
+    .catch(() => res.sendStatus(500));
 });
 
 router.post("/", (req, res) => {

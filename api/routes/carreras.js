@@ -28,7 +28,7 @@ router.get("/", (req, res) => {
         include: [
           {
             attributes: {
-              exclude: ["createdAt", "updatesAt", "id_carrera"]
+              exclude: ["createdAt", "updatedAt"]
             },
             model: models.instituto
           }
