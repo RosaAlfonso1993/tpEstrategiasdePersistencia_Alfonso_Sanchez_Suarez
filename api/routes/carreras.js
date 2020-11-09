@@ -33,7 +33,35 @@ router.get("/", (req, res) => {
             model: models.instituto
           }
         ]
-      }]
+      },
+      {
+        attributes: {
+          exclude: ["createdAt", "updatedAt"]
+        },
+        model: models.transaccionCarrera_Materia,
+        include: [{
+          attributes: {
+            exclude: ["createdAt", "updatedAt"]
+          },
+          model: models.materia
+        }
+        ]
+      },
+      {
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      },
+      model: models.alumno_carrera,
+      include: [
+        {
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "id_materia"]
+          },
+          model: models.alumno
+        }
+      ]
+    }
+      ]
     })
     .then(carreras => res.send(carreras))
     .catch(() => res.sendStatus(500));
@@ -66,12 +94,40 @@ const findCarrera = (id, { onSuccess, onNotFound, onError }) => {
         include: [
           {
             attributes: {
-              exclude: ["createdAt", "updatesAt", "id_carrera"]
+              exclude: ["createdAt", "updatedAt"]
             },
             model: models.instituto
           }
         ]
-      }],
+      },
+      {
+        attributes: {
+          exclude: ["createdAt", "updatedAt"]
+        },
+        model: models.transaccionCarrera_Materia,
+        include: [{
+          attributes: {
+            exclude: ["createdAt", "updatedAt"]
+          },
+          model: models.materia
+        }
+        ]
+      },
+      {
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      },
+      model: models.alumno_carrera,
+      include: [
+        {
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "id_materia"]
+          },
+          model: models.alumno
+        }
+      ]
+    }
+      ],
       where: { id }
     })
     .then(carrera => (carrera ? onSuccess(carrera) : onNotFound()))

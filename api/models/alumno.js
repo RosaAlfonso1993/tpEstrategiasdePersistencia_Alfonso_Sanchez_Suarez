@@ -12,6 +12,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id_alumno_fk',
         sourceKey: 'id'
       });
+        alumno.hasMany(models.alumno_carrera,
+      {
+        foreignKey: 'id_alumno_fk',
+        sourceKey: 'id'
+      });
   };
   return alumno;
 };

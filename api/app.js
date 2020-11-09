@@ -13,7 +13,8 @@ var alumnosRouter = require('./routes/alumnos');
 var transaccionalCarrera_MateriaRouter = require('./routes/transaccionalCarreras_Materias');
 var alumnos_MateriaRouter = require('./routes/alumnos_materias');
 var instituto_carrerasRouter = require('./routes/institutos_carreras');
-var cursos_materiasRouter = require('./routes/cursos_materias')
+var cursos_materiasRouter = require('./routes/cursos_materias');
+var alumnos_carrerasRouter = require('./routes/alumnos_carreras')
 
 var app = express();
 
@@ -39,6 +40,7 @@ app.use('/transCar_mat',transaccionalCarrera_MateriaRouter);
 app.use('/alum_mat', alumnos_MateriaRouter);
 app.use('/ins_car',instituto_carrerasRouter);
 app.use('/cur_mat', cursos_materiasRouter);
+app.use('/alu_car', alumnos_carrerasRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

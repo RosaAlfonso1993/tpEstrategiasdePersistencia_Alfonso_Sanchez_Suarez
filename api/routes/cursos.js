@@ -83,7 +83,42 @@ router.post("/", (req, res) => {
 const findcurso = (id, { onSuccess, onNotFound, onError }) => {
   models.curso
     .findOne({
-      attributes: ["id", "capacidad"],
+    attributes: ["id"],
+    include: [{
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      },
+      model: models.curso_materia
+      ,
+      include: [
+        {
+          attributes: {
+            exclude: ["createdAt", "updatedAt"]
+          }
+          ,
+          model: models.materia
+
+        }
+      ]
+    },
+    {
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      },
+      model: models.curso_profesor
+      ,
+      include: [
+        {
+          attributes: {
+            exclude: ["createdAt", "updatedAt"]
+          }
+          ,
+          model: models.profesor
+
+        }
+      ]
+    }
+    ],
       where: { id }
     })
     .then(curso => (curso ? onSuccess(curso) : onNotFound()))

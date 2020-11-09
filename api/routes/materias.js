@@ -44,6 +44,21 @@ router.get("/", (req, res, next) => {
             model: models.curso
           }
           ]
+    },
+    {
+      
+        attributes: {
+          exclude: ["createdAt", "updatedAt"]
+        },
+        model: models.transaccionCarrera_Materia,
+        include: [{
+          attributes: {
+            exclude: ["createdAt", "updatedAt"]
+          },
+          model: models.carrera
+        }
+      ]
+      
     }
     
     ]
@@ -103,6 +118,21 @@ const findMateria = (id, { onSuccess, onNotFound, onError }) => {
             model: models.curso
           }
           ]
+    },
+    {
+      
+        attributes: {
+          exclude: ["createdAt", "updatedAt"]
+        },
+        model: models.transaccionCarrera_Materia,
+        include: [{
+          attributes: {
+            exclude: ["createdAt", "updatedAt"]
+          },
+          model: models.carrera
+        }
+      ]
+      
     }
     
     ]
