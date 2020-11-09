@@ -46,6 +46,7 @@ router.get("/", (req, res, next) => {
           ]
     },
     {
+
       
         attributes: {
           exclude: ["createdAt", "updatedAt"]
@@ -53,13 +54,15 @@ router.get("/", (req, res, next) => {
         model: models.transaccionCarrera_Materia,
         include: [{
           attributes: {
+
             exclude: ["createdAt", "updatedAt"]
           },
           model: models.carrera
         }
-      ]
-      
-    }
+
+        ]
+  }
+
     
     ]
     

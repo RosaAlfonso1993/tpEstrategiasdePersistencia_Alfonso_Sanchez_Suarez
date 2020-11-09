@@ -3,21 +3,23 @@ var router = express.Router();
 var models = require("../models");
 
 router.get("/", (req, res) => {
-  
+
   var off = null;
   var lim = null;
-  
+
   const { page_number, page_size } = req.query;
 
-    if(page_number){
-     off = (page_number-1)*page_size};
-    if(page_size){
-      lim = 1*page_size};
+  if (page_number) {
+    off = (page_number - 1) * page_size
+  };
+  if (page_size) {
+    lim = 1 * page_size
+  };
 
   models.carrera
     .findAll({
-    offset: off,
-    limit:  lim,
+      offset: off,
+      limit: lim,
 
       attributes: ["id", "nombre"],
       include: [{
@@ -46,6 +48,7 @@ router.get("/", (req, res) => {
           model: models.materia
         }
         ]
+
       },
       {
       attributes: {
@@ -61,6 +64,9 @@ router.get("/", (req, res) => {
         }
       ]
     }
+
+      }
+
       ]
     })
     .then(carreras => res.send(carreras))
@@ -156,7 +162,7 @@ router.put("/:id", (req, res) => {
           res.sendStatus(500)
         }
       });
-    findCarrera(req.params.id, {
+  findCarrera(req.params.id, {
     onSuccess,
     onNotFound: () => res.sendStatus(404),
     onError: () => res.sendStatus(500)
