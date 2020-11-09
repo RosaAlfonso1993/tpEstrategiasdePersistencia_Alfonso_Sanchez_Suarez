@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
     off = (page_number - 1) * page_size
   };
   if (page_size) {
-    lim = 1 * page_size
+    lim = parseInt(page_size)
   };
 
   models.curso.findAll({

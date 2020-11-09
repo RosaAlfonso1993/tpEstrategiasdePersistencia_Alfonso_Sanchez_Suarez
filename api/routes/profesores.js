@@ -10,7 +10,7 @@ router.get("/", (req, res, next) => {
     if(page_number){
      off = (page_number-1)*page_size};
     if(page_size){
-      lim = 1*page_size};
+      lim = parseInt(page_size)};
   
   models.profesor.findAll({
     offset: off,
