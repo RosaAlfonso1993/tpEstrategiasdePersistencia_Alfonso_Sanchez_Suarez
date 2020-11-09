@@ -32,7 +32,22 @@ router.get("/", (req, res) => {
             model: models.materia
           }
         ]
-      }]
+      },
+      {
+        attributes: {
+          exclude: ["createdAt", "updatedAt"]
+        },
+        model: models.alumno_carrera,
+        include: [
+          {
+            attributes: {
+              exclude: ["createdAt", "updatesAt"]
+            },
+            model: models.carrera
+          }
+        ]
+      }
+      ]
     })
     .then(alumnos => res.send(alumnos))
     .catch(() => res.sendStatus(500));
@@ -70,7 +85,22 @@ const findalumno = (id, { onSuccess, onNotFound, onError }) => {
             model: models.materia
           }
         ]
-      }],
+      },
+      {
+        attributes: {
+          exclude: ["createdAt", "updatedAt"]
+        },
+        model: models.alumno_carrera,
+        include: [
+          {
+            attributes: {
+              exclude: ["createdAt", "updatesAt"]
+            },
+            model: models.carrera
+          }
+        ]
+      }
+      ],
       where: { id }
     })
     .then(alumno => (alumno ? onSuccess(alumno) : onNotFound()))
